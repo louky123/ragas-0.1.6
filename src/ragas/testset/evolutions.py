@@ -229,6 +229,7 @@ class Evolution:
         )
         answer = answer if isinstance(answer, dict) else {}
         logger.debug("answer generated: %s", answer)
+        answer = str(answer)
 
         return DataRow(
             question=question.strip('"'),
