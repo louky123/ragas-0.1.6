@@ -228,11 +228,14 @@ class Prompt(BaseModel):
             example_dict.update(
                 {k: v for k, v in zip(self.input_keys, example[: len(self.input_keys)])}
             )
-            example_dict[self.output_key] = (
-                json_loader._safe_load(example[-1], llm)
-                if self.output_type.lower() == "json"
-                else example[-1]
-            )
+            if self.output_type.lower() == "json":
+                example_dict[self.output_key] = json_loader._safe_load(example[-1], llm)
+                if example_dict[self.output_key] == {}:
+                    # Extracting the dictionary part using string slicing
+                    dict_str = example[-1].split('(')[0].strip()
+                    example_dict[self.output_key ] = ast.literal_eval(dict_str)
+                else:
+                    example_dict[self.output_key] = example[-1]
 
             if self.output_type.lower() == "json":
                 output = example_dict[self.output_key]
