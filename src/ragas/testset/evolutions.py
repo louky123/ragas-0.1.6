@@ -227,9 +227,8 @@ class Evolution:
         answer = await json_loader.safe_load(
             results.generations[0][0].text.strip(), self.generator_llm
         )
-        answer = answer if isinstance(answer, dict) else {}
-        logger.debug("answer generated: %s", answer)
         answer = str(answer)
+        logger.debug("answer generated: %s", answer)
 
         return DataRow(
             question=question.strip('"'),
