@@ -224,9 +224,9 @@ class Evolution:
                 question=question, context=merged_nodes.page_content
             )
         )
-        answer = await json_loader.safe_load(
-            results.generations[0][0].text.strip(), self.generator_llm
-        )
+        #answer = await json_loader.safe_load(
+        #    results.generations[0][0].text.strip(), self.generator_llm
+        #)
         answer = str(answer)
         logger.debug("answer generated: %s", answer)
 
