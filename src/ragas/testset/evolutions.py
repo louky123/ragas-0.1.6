@@ -224,11 +224,15 @@ class Evolution:
                 question=question, context=merged_nodes.page_content
             )
         )
-        #answer = await json_loader.safe_load(
-        #    results.generations[0][0].text.strip(), self.generator_llm
-        #)
-        answer = str(results)
+        answer = await json_loader.safe_load(
+            results.generations[0][0].text.strip(), self.generator_llm
+        )
+        answer = answer if isinstance(answer, dict) else {}
         logger.debug("answer generated: %s", answer)
+        answer = (
+            np.nan if answer.get("verdict") == "-1" else answer.get("answer", np.nan)
+        )
+
 
         return DataRow(
             question=question.strip('"'),
